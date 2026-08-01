@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Lora', Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-serif: 'Playfair Display', Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+:root {
+  --font-heading: 'Playfair Display', Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-body: 'Lora', Georgia, Cambria, "Times New Roman", Times, serif;
+
+  /* Neomorphic Deep Emerald & Gold Palette Tokens */
+  --c-dark-bg: #041611;
+  --c-card-bg: #0a241c;
+  --c-gold: #D6A84A;
+  --c-emerald-glow: #5CE0A5;
+  --c-text-primary: #FFFFFF;
+  --c-text-secondary: #CBD5E1;
+
+  --color-primary: #D6A84A;
+  --color-accent: #5CE0A5;
+  --color-bg: #041611;
+  --color-surface: #0a241c;
+  --sidebar-w: 260px;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: var(--font-body), Georgia, Cambria, "Times New Roman", Times, serif;
+}
+html { scroll-behavior: smooth; }
+body {
+  background-color: #041611;
+  background-image: 
+    radial-gradient(ellipse 90% 45% at 50% -10%, rgba(255, 255, 255, 0.15) 0%, rgba(6, 43, 33, 0.85) 45%, rgba(4, 22, 17, 1) 100%),
+    radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 15% 70%, rgba(13, 56, 44, 0.7) 0%, transparent 50%),
+    linear-gradient(180deg, #051a14 0%, #03120e 100%);
+  background-attachment: fixed;
+  color: var(--c-text-secondary);
+  font-family: var(--font-body), Georgia, Cambria, "Times New Roman", Times, serif;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-heading), Georgia, Cambria, "Times New Roman", Times, serif;
+  color: var(--c-text-primary);
+  letter-spacing: -0.02em;
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--c-dark-bg); }
+::-webkit-scrollbar-thumb { background: #10251F; border-radius: 3px; }
+
+/* ── Neomorphic Surfaces ───────────────────────────────────────────── */
+.glass, .glass-panel, .neu-card, .kpi-card {
+  background: #10251F;
+  border-radius: 20px;
+  box-shadow: 8px 8px 20px #030a08, -8px -8px 20px #1c3c33;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+.kpi-card:hover {
+  box-shadow: 12px 12px 28px #020705, -12px -12px 28px #20463b, 0 0 15px rgba(92, 224, 165, 0.12);
+  transform: translateY(-2px);
+}
+
+.neu-inset {
+  background: #0a1814;
+  box-shadow: inset 4px 4px 10px #030a08, inset -4px -4px 10px #17362d;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.btn-primary {
+  background: linear-gradient(145deg, #e5b85b, #c2953a);
+  color: #081B16;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 6px 6px 14px #030a08, -6px -6px 14px #1c3c33;
+}
+.btn-primary:hover {
+  background: linear-gradient(145deg, #f0c366, #d6a84a);
+  box-shadow: 8px 8px 18px #020705, -8px -8px 18px #20463b;
+}
+
+.btn-secondary {
+  background: #10251F;
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(92, 224, 165, 0.2);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 6px 6px 14px #030a08, -6px -6px 14px #1c3c33;
+}
+.btn-secondary:hover {
+  box-shadow: inset 4px 4px 9px #030a08, inset -4px -4px 9px #17362d;
+  color: #5CE0A5;
+}
+
+.pulse-emerald {
+  display: inline-block;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #5CE0A5;
+  box-shadow: 0 0 0 0 rgba(92, 224, 165, 0.6);
+  animation: pulse-ring 2s ease-out infinite;
+}
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(92, 224, 165, 0.6); }
+  70%  { box-shadow: 0 0 0 10px rgba(92, 224, 165, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(92, 224, 165, 0); }
+}
+
+.leaflet-container { background: #081B16 !important; }

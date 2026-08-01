@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Lora', Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-serif: 'Playfair Display', Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+:root {
+  --font-heading: 'Playfair Display', Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-body: 'Lora', Georgia, Cambria, "Times New Roman", Times, serif;
+
+  --c-dark-bg: #041611;
+  --c-card-bg: #0a241c;
+  --c-surface-inset: #061913;
+  --c-border: rgba(255, 255, 255, 0.12);
+
+  --c-gold: #D6A84A;
+  --c-mint: #5CE0A5;
+  --c-text-primary: #FFFFFF;
+  --c-text-muted: #CBD5E1;
+
+  --r-card: 16px;
+  --r-btn: 12px;
+  --r-input: 10px;
+  --r-image: 20px;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: var(--font-body), Georgia, Cambria, "Times New Roman", Times, serif;
+}
+html { scroll-behavior: smooth; }
+body {
+  background-color: #041611;
+  background-image: 
+    radial-gradient(ellipse 90% 45% at 50% -10%, rgba(255, 255, 255, 0.15) 0%, rgba(6, 43, 33, 0.85) 45%, rgba(4, 22, 17, 1) 100%),
+    radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 15% 70%, rgba(13, 56, 44, 0.7) 0%, transparent 50%),
+    linear-gradient(180deg, #051a14 0%, #03120e 100%);
+  background-attachment: fixed;
+  color: var(--c-text-primary);
+  font-family: var(--font-body), Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 17px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-heading), Georgia, Cambria, "Times New Roman", Times, serif;
+  color: var(--c-text-primary);
+  letter-spacing: -0.02em;
+}
+
+/* ── Liquid Glass CSS Specification ───────────────────────────────── */
+.liquid-glass {
+  background: rgba(0, 0, 0, 0.4);
+  background-blend-mode: luminosity;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: none;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+.liquid-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.4px;
+  background: linear-gradient(180deg,
+    rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 20%,
+    rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%,
+    rgba(255,255,255,0.1) 80%, rgba(255,255,255,0.3) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ── Content Hierarchy Font Scale ─────────────────────────────────── */
+.text-hero          { font-size: 4rem; line-height: 1.08; font-weight: 700; }     /* 64px */
+.text-major-section { font-size: 2.625rem; line-height: 1.15; font-weight: 700; } /* 42px */
+.text-sub-sec       { font-size: 1.75rem; line-height: 1.25; font-weight: 600; }  /* 28px */
+.text-card-title   { font-size: 1.375rem; line-height: 1.3; font-weight: 600; } /* 22px */
+.text-body          { font-size: 1.0625rem; line-height: 1.6; font-weight: 400; } /* 17px */
+.text-caption       { font-size: 0.875rem; line-height: 1.4; font-weight: 400; } /* 14px */
+
+@media (max-width: 768px) {
+  .text-hero          { font-size: 2.75rem; line-height: 1.12; }
+  .text-major-section { font-size: 2.125rem; }
+  .text-sub-sec       { font-size: 1.5rem; }
+}
+
+/* ── EcoVision AI Surface Cards & Inputs ───────────────────────────── */
+.surface-card {
+  background-color: var(--c-card-bg);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-card);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.surface-card-hover:hover {
+  border-color: rgba(92, 224, 165, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.surface-inset {
+  background-color: var(--c-surface-inset);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+}
+
+.btn-gold-primary {
+  background-color: #FFFFFF;
+  color: #000000;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--r-btn);
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.btn-gold-primary:hover {
+  background-color: #F3F4F6;
+  transform: translateY(-2px);
+}
+
+.btn-outline-emerald {
+  background: transparent;
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--r-btn);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.btn-outline-emerald:hover {
+  background: #FFFFFF;
+  color: #000000;
+  transform: translateY(-2px);
+}
+
+.input-field {
+  background-color: var(--c-surface-inset);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--r-input);
+  padding: 0.625rem 0.875rem;
+  color: #FFFFFF;
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.pulse-mint {
+  display: inline-block;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #5CE0A5;
+  box-shadow: 0 0 0 0 rgba(92, 224, 165, 0.6);
+  animation: pulse-ring 2s ease-out infinite;
+}
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(92, 224, 165, 0.6); }
+  70%  { box-shadow: 0 0 0 10px rgba(92, 224, 165, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(92, 224, 165, 0); }
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #081B16; }
+::-webkit-scrollbar-thumb { background: #10251F; border-radius: 3px; }
+
+.leaflet-container { background: #081B16 !important; }

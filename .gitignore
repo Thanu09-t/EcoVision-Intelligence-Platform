@@ -1,0 +1,62 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Node
+node_modules/
+.next/
+out/
+dist/
+build/
+.turbo/
+*.tgz
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+.eggs/
+
+# AI Weights (large files)
+ai/*/weights/
+datasets/
+*.pt
+*.pth
+*.onnx
+*.bin
+
+# Uploads
+backend/uploads/
+uploads/
+
+# Docker
+docker/postgres-data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs & Databases
+*.log
+logs/
+*.db
+*.sqlite
+*.sqlite3

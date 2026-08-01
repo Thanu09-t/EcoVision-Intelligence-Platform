@@ -1,0 +1,5 @@
+geoalchemy2
+python-jose[cryptography]
+ortools
+pytest
+pytest-asyncio

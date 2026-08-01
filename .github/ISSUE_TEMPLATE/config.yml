@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 EcoVision AI Documentation
+    url: https://github.com/your-org/ecovision-ai#readme
+    about: Read the official documentation and setup guides.
+  - name: 🔒 Security Vulnerability Report
+    url: https://github.com/your-org/ecovision-ai/blob/main/SECURITY.md
+    about: Report sensitive security vulnerabilities privately.

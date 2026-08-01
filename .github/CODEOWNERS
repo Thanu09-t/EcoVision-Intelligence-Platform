@@ -1,0 +1,16 @@
+# Global Codeowners
+*       @admin-team
+
+# Backend (Python / FastAPI / AI Models)
+/backend/       @backend-team @ai-team
+
+# Frontends (Next.js / TypeScript)
+/frontend/      @frontend-team
+
+# Docker & Infrastructure
+/docker/            @devops-team
+docker-compose.yml  @devops-team
+
+# Governance & Documentation
+/.github/           @admin-team
+*.md                @admin-team
