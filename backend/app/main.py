@@ -47,8 +47,11 @@ app.add_middleware(
 )
 
 # Static files (uploaded images)
-if os.path.exists(settings.UPLOAD_DIR):
-    app.mount("/uploads", StaticFiles(directory=settings.UPLOAD_DIR), name="uploads")
+try:
+    if os.path.exists(settings.UPLOAD_DIR):
+        app.mount("/uploads", StaticFiles(directory=settings.UPLOAD_DIR), name="uploads")
+except Exception as e:
+    print(f"[WARNING] Could not mount static uploads directory: {e}")
 
 # Routers
 app.include_router(auth.router)
