@@ -11,7 +11,10 @@ from app.routers import auth, reports, map, analytics, routing, ai_reports, noti
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Startup and shutdown events."""
-    os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+    try:
+        os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+    except OSError:
+        pass
     print(f"[OK] EcoVision AI backend started | AI Mode: {settings.AI_MODE} | DB: Supabase ({settings.SUPABASE_URL})")
     yield
     print("[--] EcoVision AI backend shutting down")

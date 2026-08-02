@@ -1,6 +1,8 @@
 from pydantic_settings import BaseSettings
-from typing import List
+from pydantic import field_validator
+from typing import List, Union
 import os
+import json
 
 
 class Settings(BaseSettings):
@@ -23,7 +25,7 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
     # File Storage
-    UPLOAD_DIR: str = "./uploads"
+    UPLOAD_DIR: str = "/tmp/uploads" if os.environ.get("VERCEL") else "./uploads"
     MAX_FILE_SIZE_MB: int = 10
 
     # AI
@@ -40,11 +42,24 @@ class Settings(BaseSettings):
     LLM_MODEL: str = "gpt-4o-mini"
 
     # CORS
-    CORS_ORIGINS: List[str] = [
+    CORS_ORIGINS: Union[List[str], str] = [
         "http://localhost:3000",
         "http://localhost:3001",
         "http://localhost:3002",
+        "*",
     ]
+
+    @field_validator("CORS_ORIGINS", mode="before")
+    @classmethod
+    def parse_cors_origins(cls, v):
+        if isinstance(v, str):
+            if v.startswith("["):
+                try:
+                    return json.loads(v)
+                except Exception:
+                    pass
+            return [origin.strip() for origin in v.split(",") if origin.strip()]
+        return v
 
     # Frontend URLs
     LANDING_PAGE_URL: str = "http://localhost:3000"
@@ -59,5 +74,9 @@ class Settings(BaseSettings):
 
 settings = Settings()
 
-# Ensure upload directory exists
-os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+# Ensure upload directory exists safely (prevents Vercel read-only filesystem crash)
+try:
+    os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+except OSError:
+    pass
+

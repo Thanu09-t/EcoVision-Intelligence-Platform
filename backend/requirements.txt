@@ -9,7 +9,7 @@ aiofiles==23.2.1
 httpx==0.25.2
 Pillow==10.1.0
 numpy==1.26.2
-ortools==9.8.3296
+# ortools==9.8.3296 (Commented out for Vercel serverless size limit; routing falls back to nearest-neighbor)
 reportlab==4.0.8
 jinja2==3.1.2
 python-dotenv==1.0.0
