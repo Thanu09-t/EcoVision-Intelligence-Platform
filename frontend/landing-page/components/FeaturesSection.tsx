@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import TiltCard from "./TiltCard";
 
 export default function FeaturesSection() {
@@ -55,6 +56,11 @@ export default function FeaturesSection() {
                 <div className="text-sm font-bold text-[#5CE0A5] mt-0.5">88 / 100</div>
               </div>
             </div>
+            <div className="pt-2 border-t border-white/5">
+              <Link href="/citizen/report/new" className="text-xs font-mono text-[#5CE0A5] hover:text-white flex items-center gap-1 font-semibold transition-colors">
+                <span>📸 Upload Photo & Test AI Detection →</span>
+              </Link>
+            </div>
           </div>
         </TiltCard>
 
@@ -90,6 +96,11 @@ export default function FeaturesSection() {
               <span>Fuel Saved:</span>
               <span className="text-[#5CE0A5] font-bold">3.8 Liters</span>
             </div>
+            <div className="pt-2 border-t border-white/5">
+              <Link href="/dashboard/routes" className="text-xs font-mono text-[#38BDF8] hover:text-white flex items-center gap-1 font-semibold transition-colors">
+                <span>🚛 Open OR-Tools Route Solver →</span>
+              </Link>
+            </div>
           </div>
         </TiltCard>
 
@@ -113,6 +124,11 @@ export default function FeaturesSection() {
             <div><span className="text-white">OVER</span> (ORDER BY created_at) <span className="text-white">AS</span> cluster_id</div>
             <div><span className="text-white">FROM</span> garbage_reports</div>
             <div><span className="text-white">WHERE</span> ST_DWithin(geom, user_location, 500);</div>
+            <div className="pt-2 border-t border-white/5">
+              <Link href="/dashboard/map" className="text-xs font-mono text-[#5CE0A5] hover:text-white flex items-center gap-1 font-semibold transition-colors">
+                <span>🗺️ Open 198 Ward Heatmap →</span>
+              </Link>
+            </div>
           </div>
         </TiltCard>
 
@@ -131,22 +147,29 @@ export default function FeaturesSection() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-            <div className="surface-inset p-3 rounded-lg">
-              <div className="text-lg font-bold text-white font-mono">+50 pts</div>
-              <div className="text-[10px] text-[#AEB9B5] uppercase font-mono mt-1">Valid Report</div>
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+              <div className="surface-inset p-3 rounded-lg">
+                <div className="text-lg font-bold text-white font-mono">+50 pts</div>
+                <div className="text-[10px] text-[#AEB9B5] uppercase font-mono mt-1">Valid Report</div>
+              </div>
+              <div className="surface-inset p-3 rounded-lg">
+                <div className="text-lg font-bold text-[#5CE0A5] font-mono">+100 pts</div>
+                <div className="text-[10px] text-[#AEB9B5] uppercase font-mono mt-1">Resolved</div>
+              </div>
+              <div className="surface-inset p-3 rounded-lg">
+                <div className="text-lg font-bold text-[#D6A84A] font-mono">Rank #4</div>
+                <div className="text-[10px] text-[#AEB9B5] uppercase font-mono mt-1">Ward Leader</div>
+              </div>
+              <div className="surface-inset p-3 rounded-lg">
+                <div className="text-lg font-bold text-white font-mono">1,450</div>
+                <div className="text-[10px] text-[#AEB9B5] uppercase font-mono mt-1">Total Earned</div>
+              </div>
             </div>
-            <div className="surface-inset p-3 rounded-lg">
-              <div className="text-lg font-bold text-[#5CE0A5] font-mono">+100 pts</div>
-              <div className="text-[10px] text-[#AEB9B5] uppercase font-mono mt-1">Resolved</div>
-            </div>
-            <div className="surface-inset p-3 rounded-lg">
-              <div className="text-lg font-bold text-[#D6A84A] font-mono">Rank #4</div>
-              <div className="text-[10px] text-[#AEB9B5] uppercase font-mono mt-1">Ward Leader</div>
-            </div>
-            <div className="surface-inset p-3 rounded-lg">
-              <div className="text-lg font-bold text-white font-mono">1,450</div>
-              <div className="text-[10px] text-[#AEB9B5] uppercase font-mono mt-1">Total Earned</div>
+            <div className="pt-2 text-right">
+              <Link href="/citizen/achievements" className="text-xs font-mono text-[#D6A84A] hover:text-white inline-flex items-center gap-1 font-semibold transition-colors">
+                <span>🏆 View Leaderboard & Rewards →</span>
+              </Link>
             </div>
           </div>
         </TiltCard>

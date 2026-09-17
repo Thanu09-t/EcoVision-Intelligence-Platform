@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 
 const WORKFLOW_STEPS = [
   {
@@ -88,6 +89,22 @@ export default function ComplaintWorkflow() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Workflow CTAs */}
+      <div className="surface-card p-6 border border-white/10 bg-[#10251F] flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <h4 className="text-white font-heading font-bold text-base">Ready to report an illegal dump site?</h4>
+          <p className="text-[#AEB9B5] text-xs">Help keep your ward clean and earn eco-rewards in under 20 seconds.</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <Link href="/citizen/report/new" className="btn-gold-primary text-xs py-2.5 px-5 whitespace-nowrap">
+            📸 Report Garbage Site →
+          </Link>
+          <Link href="/citizen#my-complaints" className="liquid-glass border border-white/15 text-white hover:text-[#5CE0A5] text-xs py-2.5 px-4 rounded-xl whitespace-nowrap transition-colors">
+            Track Complaints
+          </Link>
+        </div>
       </div>
     </section>
   );

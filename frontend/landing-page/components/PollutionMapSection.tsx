@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import dynamic from "next/dynamic";
 
 const MapComponent = dynamic(() => import("./MapInner"), {
@@ -25,16 +26,33 @@ export default function PollutionMapSection() {
   return (
     <section id="map" className="py-20 px-4 sm:px-6 lg:px-8 max-w-[1280px] mx-auto space-y-8 text-left">
       {/* Section Header */}
-      <div className="max-w-3xl space-y-3">
-        <div className="inline-flex items-center gap-2 bg-[#10251F] border border-white/10 px-3 py-1 rounded-md text-xs font-mono text-[#5CE0A5]">
-          <span>● Geospatial Intelligence</span>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div className="max-w-3xl space-y-3">
+          <div className="inline-flex items-center gap-2 bg-[#10251F] border border-white/10 px-3 py-1 rounded-md text-xs font-mono text-[#5CE0A5]">
+            <span>● Geospatial Intelligence</span>
+          </div>
+          <h2 className="text-major-section font-heading text-white">
+            Real-time incident heatmap across 198 wards.
+          </h2>
+          <p className="text-body text-[#AEB9B5]">
+            PostGIS 3.4 spatial indexes render exact lat/long coordinates of reported garbage sites.
+          </p>
         </div>
-        <h2 className="text-major-section font-heading text-white">
-          Real-time incident heatmap across 198 wards.
-        </h2>
-        <p className="text-body text-[#AEB9B5]">
-          PostGIS 3.4 spatial indexes render exact lat/long coordinates of reported garbage sites.
-        </p>
+
+        <div className="flex items-center gap-3">
+          <Link
+            href="/dashboard/map"
+            className="btn-gold-primary text-xs py-2.5 px-4 whitespace-nowrap inline-flex items-center gap-1.5"
+          >
+            <span>🗺️ Full Officer Heatmap →</span>
+          </Link>
+          <Link
+            href="/citizen/map"
+            className="liquid-glass border border-white/15 text-white hover:text-[#5CE0A5] text-xs py-2.5 px-4 rounded-xl whitespace-nowrap transition-colors"
+          >
+            <span>Citizen Map</span>
+          </Link>
+        </div>
       </div>
 
       {/* Municipal Dashboard Interface Wrapper */}

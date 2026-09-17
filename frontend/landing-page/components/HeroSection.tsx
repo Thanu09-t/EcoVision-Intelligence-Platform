@@ -6,12 +6,12 @@ import SplineHeroObject from "./SplineHeroObject";
 import MagneticButton from "./MagneticButton";
 
 const NAV_LINKS = [
+  { href: "/citizen", label: "Citizen Portal" },
+  { href: "/dashboard", label: "Municipal Dashboard" },
+  { href: "/docs", label: "API Docs" },
   { href: "#features", label: "Capabilities" },
-  { href: "#product-reveal-3d", label: "3D Reveal" },
-  { href: "#activity", label: "Live Dispatch" },
   { href: "#map", label: "Ward Heatmap" },
   { href: "#workflow", label: "SLA Workflow" },
-  { href: "#about", label: "Architecture" },
 ];
 
 const CITIZEN_URL = "/citizen";
@@ -60,8 +60,8 @@ export default function HeroSection() {
 
           {/* Right CTA Magnetic Button */}
           <MagneticButton href={`${CITIZEN_URL}/login`}>
-            <span className="bg-white text-black px-6 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors block">
-              Start a Chat
+            <span className="bg-white text-black px-5 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors block">
+              Sign In →
             </span>
           </MagneticButton>
         </nav>
@@ -91,8 +91,8 @@ export default function HeroSection() {
 
             {/* Magnetic CTA Buttons Row with 1200ms FadeIn */}
             <FadeIn delay={1200} duration={1000} className="flex flex-wrap items-center gap-4">
-              <MagneticButton href={`${CITIZEN_URL}/login`}>
-                <span className="bg-white text-black px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors block">
+              <MagneticButton href={`${CITIZEN_URL}/report/new`}>
+                <span className="bg-[#5CE0A5] text-slate-950 font-bold px-8 py-3 rounded-lg font-medium hover:bg-[#48cb92] transition-colors block">
                   Report Waste Now →
                 </span>
               </MagneticButton>
@@ -100,6 +100,12 @@ export default function HeroSection() {
               <MagneticButton href={MUNICIPAL_URL}>
                 <span className="liquid-glass border border-white/20 text-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-black transition-colors block">
                   Officer Command Center
+                </span>
+              </MagneticButton>
+
+              <MagneticButton href="/docs">
+                <span className="liquid-glass border border-white/10 text-[#D6A84A] px-5 py-3 rounded-lg font-mono text-xs font-semibold hover:border-[#D6A84A]/40 transition-colors block">
+                  Interactive API Docs (/docs)
                 </span>
               </MagneticButton>
             </FadeIn>

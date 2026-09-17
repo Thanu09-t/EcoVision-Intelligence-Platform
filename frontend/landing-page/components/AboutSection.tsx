@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 
 const MILESTONES = [
   { phase: "v1.0", title: "Dataset Ingestion & EXIF GPS Extraction", desc: "Built pipeline for parsing smartphone photos, extracting EXIF lat/long, and storing records." },
@@ -42,22 +43,22 @@ export default function AboutSection() {
 
       {/* Production Tech Dependencies */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-mono">
-        <div className="surface-card p-4 border border-white/10">
+        <Link href="/citizen/report/new" className="surface-card p-4 border border-white/10 hover:border-[#5CE0A5]/40 transition-colors block group">
           <div className="text-[#D6A84A] font-bold mb-1">Vision Engine</div>
-          <div className="text-white">YOLOv11 + SAM2</div>
-        </div>
-        <div className="surface-card p-4 border border-white/10">
+          <div className="text-white group-hover:text-[#5CE0A5]">YOLOv11 + SAM2 ↗</div>
+        </Link>
+        <Link href="/dashboard/map" className="surface-card p-4 border border-white/10 hover:border-[#5CE0A5]/40 transition-colors block group">
           <div className="text-[#D6A84A] font-bold mb-1">Geospatial DB</div>
-          <div className="text-white">PostGIS 3.4 / Postgres 15</div>
-        </div>
-        <div className="surface-card p-4 border border-white/10">
+          <div className="text-white group-hover:text-[#5CE0A5]">PostGIS 3.4 / Postgres ↗</div>
+        </Link>
+        <Link href="/dashboard/routes" className="surface-card p-4 border border-white/10 hover:border-[#5CE0A5]/40 transition-colors block group">
           <div className="text-[#D6A84A] font-bold mb-1">Route Solver</div>
-          <div className="text-white">Google OR-Tools VRP</div>
-        </div>
-        <div className="surface-card p-4 border border-white/10">
+          <div className="text-white group-hover:text-[#5CE0A5]">Google OR-Tools VRP ↗</div>
+        </Link>
+        <Link href="/docs" className="surface-card p-4 border border-white/10 hover:border-[#5CE0A5]/40 transition-colors block group">
           <div className="text-[#D6A84A] font-bold mb-1">REST API</div>
-          <div className="text-white">FastAPI Python 3.11</div>
-        </div>
+          <div className="text-white group-hover:text-[#5CE0A5]">FastAPI Docs (/docs) ↗</div>
+        </Link>
       </div>
     </section>
   );

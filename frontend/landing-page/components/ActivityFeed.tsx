@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 
 const RECENT_ACTIVITIES = [
   {
@@ -53,8 +54,16 @@ export default function ActivityFeed() {
             </div>
             <h3 className="text-card-title font-heading text-white">Recent Incident & Cleanup Queue</h3>
           </div>
-          <div className="text-xs font-mono text-[#AEB9B5] bg-[#0a1814] px-3 py-1.5 rounded-lg border border-white/5">
-            Auto-refreshing every 30s
+          <div className="flex items-center gap-3">
+            <div className="text-xs font-mono text-[#AEB9B5] bg-[#0a1814] px-3 py-1.5 rounded-lg border border-white/5 hidden sm:block">
+              Auto-refreshing every 30s
+            </div>
+            <Link
+              href="/dashboard/reports"
+              className="text-xs font-mono text-[#5CE0A5] hover:text-black bg-[#10251F] hover:bg-[#5CE0A5] transition-all px-3 py-1.5 rounded-lg border border-[#5CE0A5]/30 font-semibold"
+            >
+              Open Reports Queue →
+            </Link>
           </div>
         </div>
 
