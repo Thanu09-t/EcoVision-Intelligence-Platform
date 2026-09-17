@@ -60,31 +60,32 @@ cp .env.example .env
 docker-compose up --build
 ```
 
+**Access All Services (Port 3000):**
+- Landing Page & Launchpad: http://localhost:3000
+- Citizen Portal: http://localhost:3000/citizen
+- Municipal Dashboard: http://localhost:3000/dashboard
+- API Docs: http://localhost:3000/docs (or http://localhost:8000/docs)
 ### Local Development
 
-**Backend:**
+**Run the Full Platform in a Single Command:**
 ```bash
-cd backend
-pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
+python run.py
+# or
+npm start
 ```
 
-**Landing Page:**
+**Or Run Services Individually:**
+
+**Backend (FastAPI):**
+```bash
+cd backend
+python -m uvicorn app.main:app --reload --port 8000
+```
+
+**Frontend (Unified Next.js App):**
 ```bash
 cd frontend/landing-page
 npm install && npm run dev
-```
-
-**Citizen Portal:**
-```bash
-cd frontend/citizen-app
-npm install && npm run dev -- --port 3001
-```
-
-**Municipal Dashboard:**
-```bash
-cd frontend/municipal-dashboard
-npm install && npm run dev -- --port 3002
 ```
 
 ---
@@ -93,10 +94,15 @@ npm install && npm run dev -- --port 3002
 
 ```
 EcoVision-AI/
+├── run.py                    # Single-server platform launcher
+├── server.js                 # Node.js platform launcher
 ├── frontend/
-│   ├── landing-page/         # Public homepage (Next.js)
-│   ├── citizen-app/          # Citizen portal (Next.js)
-│   └── municipal-dashboard/  # Municipal officer dashboard (Next.js)
+│   └── landing-page/         # Unified Web Platform (Next.js)
+│       ├── app/
+│       │   ├── page.tsx      # Landing page & launchpad
+│       │   ├── citizen/      # Citizen portal & report routes
+│       │   └── dashboard/    # Municipal command center routes
+│       └── components/       # Shared UI & GIS map components
 ├── backend/
 │   ├── app/
 │   │   ├── main.py           # FastAPI entrypoint

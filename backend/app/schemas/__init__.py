@@ -1,9 +1,66 @@
+import enum
 from datetime import datetime
 from typing import Optional, List
 from pydantic import BaseModel, EmailStr, Field
-from app.models.user import UserRole
-from app.models.report import ReportStatus, SeverityLevel, WasteType, IllegalDumpType
-from app.models.vehicle import VehicleStatus
+
+
+# ─── Enums (defined inline to avoid SQLAlchemy ORM import chain on Vercel) ───
+
+class UserRole(str, enum.Enum):
+    citizen = "citizen"
+    municipal = "municipal"
+    admin = "admin"
+
+
+class ReportStatus(str, enum.Enum):
+    pending = "pending"
+    under_review = "under_review"
+    assigned = "assigned"
+    cleaning_started = "cleaning_started"
+    completed = "completed"
+    rejected = "rejected"
+
+
+class SeverityLevel(str, enum.Enum):
+    very_low = "very_low"
+    low = "low"
+    medium = "medium"
+    high = "high"
+    critical = "critical"
+
+
+class WasteType(str, enum.Enum):
+    plastic = "plastic"
+    organic = "organic"
+    glass = "glass"
+    metal = "metal"
+    electronic = "electronic"
+    biomedical = "biomedical"
+    construction = "construction"
+    mixed = "mixed"
+
+
+class IllegalDumpType(str, enum.Enum):
+    roadside = "roadside"
+    vacant_lot = "vacant_lot"
+    water_body = "water_body"
+    residential = "residential"
+    commercial = "commercial"
+    industrial = "industrial"
+    authorized_yard = "authorized_yard"
+    illegal_dump = "illegal_dump"
+    temporary_collection = "temporary_collection"
+    overflowing_bin = "overflowing_bin"
+    unknown = "unknown"
+    other = "other"
+
+
+class VehicleStatus(str, enum.Enum):
+    available = "available"
+    on_route = "on_route"
+    maintenance = "maintenance"
+    offline = "offline"
+
 
 
 # ─── Auth ────────────────────────────────────────────────────────────────────

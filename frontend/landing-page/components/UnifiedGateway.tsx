@@ -2,17 +2,21 @@
 import TiltCard from "@/components/TiltCard";
 import MagneticButton from "@/components/MagneticButton";
 
+const CITIZEN_URL = "/citizen";
+const MUNICIPAL_URL = "/dashboard";
+const API_URL = (process.env.VITE_API_URL || process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
+
 const MASTER_LINKS = [
   {
     category: "📱 Citizen Portal",
     badge: "Public Access",
     badgeColor: "bg-[#5CE0A5]/10 text-[#5CE0A5] border-[#5CE0A5]/30",
     links: [
-      { name: "📸 Report Garbage Site (Auto GPS)", url: "http://localhost:3001/report/new", desc: "Snap photo, auto-detect locality & download report" },
-      { name: "📋 My Complaints Tracker", url: "http://localhost:3001#my-complaints", desc: "Live 4-step SLA dispatch tracking" },
-      { name: "🗺️ Bengaluru Pollution Map", url: "http://localhost:3001/map", desc: "View 25+ ward garbage sites & district stats" },
-      { name: "🏆 Eco Rewards & Leaderboard", url: "http://localhost:3001/achievements", desc: "Track eco-points, badges & city rank" },
-      { name: "🔐 Citizen Sign-In", url: "http://localhost:3001/login", desc: "Log in with demo credentials" },
+      { name: "📸 Report Garbage Site (Auto GPS)", url: `${CITIZEN_URL}/report/new`, desc: "Snap photo, auto-detect locality & download report" },
+      { name: "📋 My Complaints Tracker", url: `${CITIZEN_URL}#my-complaints`, desc: "Live 4-step SLA dispatch tracking" },
+      { name: "🗺️ Bengaluru Pollution Map", url: `${CITIZEN_URL}/map`, desc: "View 25+ ward garbage sites & district stats" },
+      { name: "🏆 Eco Rewards & Leaderboard", url: `${CITIZEN_URL}/achievements`, desc: "Track eco-points, badges & city rank" },
+      { name: "🔐 Citizen Sign-In", url: `${CITIZEN_URL}/login`, desc: "Log in with demo credentials" },
     ],
   },
   {
@@ -20,17 +24,17 @@ const MASTER_LINKS = [
     badge: "Officer & Admin",
     badgeColor: "bg-[#D6A84A]/10 text-[#D6A84A] border-[#D6A84A]/30",
     links: [
-      { name: "📊 Officer Overview Dashboard", url: "http://localhost:3002", desc: "City-wide statistics & live map" },
-      { name: "🗺️ GIS Ward Heatmap", url: "http://localhost:3002/map", desc: "Interactive Bengaluru ward heatmap" },
-      { name: "📋 Ward Reports Management", url: "http://localhost:3002/reports", desc: "Filter, review & assign sanitation crews" },
-      { name: "🚛 OR-Tools VRP Fleet Solver", url: "http://localhost:3002/routes", desc: "Vehicle Routing Problem optimization engine" },
-      { name: "📈 Smart City Analytics", url: "http://localhost:3002/analytics", desc: "Waste distribution, monthly trends & ward rankings" },
-      { name: "🤖 AI Report Generator & PDF", url: "http://localhost:3002/ai-reports", desc: "Synthesize LLM reports & export official PDF" },
-      { name: "👥 Sanitation Cleanup Teams", url: "http://localhost:3002/team", desc: "Manage fleets Alpha, Beta, Gamma & Delta" },
-      { name: "👤 User Access Directory", url: "http://localhost:3002/users", desc: "Manage citizens, officers & admin roles" },
-      { name: "🔔 Notification Feed", url: "http://localhost:3002/notifications", desc: "Real-time alerts, fleet updates & AI inferences" },
-      { name: "⚙️ System Settings", url: "http://localhost:3002/settings", desc: "Configure dispatch thresholds & alert rules" },
-      { name: "🚗 System Admin Panel", url: "http://localhost:3002/admin", desc: "System-wide vehicles & infrastructure" },
+      { name: "📊 Officer Overview Dashboard", url: `${MUNICIPAL_URL}`, desc: "City-wide statistics & live map" },
+      { name: "🗺️ GIS Ward Heatmap", url: `${MUNICIPAL_URL}/map`, desc: "Interactive Bengaluru ward heatmap" },
+      { name: "📋 Ward Reports Management", url: `${MUNICIPAL_URL}/reports`, desc: "Filter, review & assign sanitation crews" },
+      { name: "🚛 OR-Tools VRP Fleet Solver", url: `${MUNICIPAL_URL}/routes`, desc: "Vehicle Routing Problem optimization engine" },
+      { name: "📈 Smart City Analytics", url: `${MUNICIPAL_URL}/analytics`, desc: "Waste distribution, monthly trends & ward rankings" },
+      { name: "🤖 AI Report Generator & PDF", url: `${MUNICIPAL_URL}/ai-reports`, desc: "Synthesize LLM reports & export official PDF" },
+      { name: "👥 Sanitation Cleanup Teams", url: `${MUNICIPAL_URL}/team`, desc: "Manage fleets Alpha, Beta, Gamma & Delta" },
+      { name: "👤 User Access Directory", url: `${MUNICIPAL_URL}/users`, desc: "Manage citizens, officers & admin roles" },
+      { name: "🔔 Notification Feed", url: `${MUNICIPAL_URL}/notifications`, desc: "Real-time alerts, fleet updates & AI inferences" },
+      { name: "⚙️ System Settings", url: `${MUNICIPAL_URL}/settings`, desc: "Configure dispatch thresholds & alert rules" },
+      { name: "🚗 System Admin Panel", url: `${MUNICIPAL_URL}/admin`, desc: "System-wide vehicles & infrastructure" },
     ],
   },
   {
@@ -38,8 +42,8 @@ const MASTER_LINKS = [
     badge: "Developers & API",
     badgeColor: "bg-purple-500/10 text-purple-400 border-purple-500/30",
     links: [
-      { name: "📖 Interactive Swagger API Docs", url: "http://localhost:8000/docs", desc: "Explore FastAPI REST endpoints & test schemas" },
-      { name: "🟢 Backend Health Status", url: "http://localhost:8000/health", desc: "PostGIS Supabase & AI inference health check" },
+      { name: "📖 Interactive Swagger API Docs", url: `${API_URL}/docs`, desc: "Explore FastAPI REST endpoints & test schemas" },
+      { name: "🟢 Backend Health Status", url: `${API_URL}/api/health`, desc: "PostGIS Supabase & AI inference health check" },
     ],
   },
 ];

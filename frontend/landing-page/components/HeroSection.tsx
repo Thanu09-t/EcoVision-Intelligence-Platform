@@ -14,6 +14,9 @@ const NAV_LINKS = [
   { href: "#about", label: "Architecture" },
 ];
 
+const CITIZEN_URL = "/citizen";
+const MUNICIPAL_URL = "/dashboard";
+
 export default function HeroSection() {
   return (
     <section className="relative w-full h-screen min-h-[700px] overflow-hidden flex flex-col justify-between">
@@ -56,7 +59,7 @@ export default function HeroSection() {
           </div>
 
           {/* Right CTA Magnetic Button */}
-          <MagneticButton href="http://localhost:3001/login">
+          <MagneticButton href={`${CITIZEN_URL}/login`}>
             <span className="bg-white text-black px-6 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors block">
               Start a Chat
             </span>
@@ -73,7 +76,7 @@ export default function HeroSection() {
             {/* Character-by-Character Entrance Heading */}
             <AnimatedHeading
               text={"Smart City Intelligence\nfor Cleaner Communities."}
-              className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal text-white mb-4 leading-tight"
+              className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal text-[#FFFFFF] mb-4 leading-tight font-serif"
               initialDelay={200}
               charDelay={30}
               duration={500}
@@ -88,13 +91,13 @@ export default function HeroSection() {
 
             {/* Magnetic CTA Buttons Row with 1200ms FadeIn */}
             <FadeIn delay={1200} duration={1000} className="flex flex-wrap items-center gap-4">
-              <MagneticButton href="http://localhost:3001/login">
+              <MagneticButton href={`${CITIZEN_URL}/login`}>
                 <span className="bg-white text-black px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors block">
                   Report Waste Now →
                 </span>
               </MagneticButton>
 
-              <MagneticButton href="http://localhost:3002">
+              <MagneticButton href={MUNICIPAL_URL}>
                 <span className="liquid-glass border border-white/20 text-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-black transition-colors block">
                   Officer Command Center
                 </span>

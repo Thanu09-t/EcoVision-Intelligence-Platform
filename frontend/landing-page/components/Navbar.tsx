@@ -76,7 +76,7 @@ export default function Navbar() {
             </a>
 
             <Link
-              href="http://localhost:3001/login"
+              href="/citizen/login"
               className="btn-gold-primary text-xs py-2 px-4"
             >
               Sign In →
@@ -108,7 +108,7 @@ export default function Navbar() {
           ))}
           <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
             <Link
-              href="http://localhost:3001/login"
+              href="/citizen/login"
               onClick={() => setMenuOpen(false)}
               className="btn-gold-primary text-sm justify-center py-2.5"
             >

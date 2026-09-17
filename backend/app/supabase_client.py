@@ -48,17 +48,47 @@ async def supabase_get(
     if single:
         headers["Accept"] = "application/vnd.pgrst.object+json"
 
-    async with httpx.AsyncClient(timeout=15.0, follow_redirects=True) as client:
-        resp = await client.get(
-            f"{REST_URL}/{table}",
-            params=params or {},
-            headers=headers,
-        )
-        if resp.status_code == 406 and single:
-            # No rows found for singular request
-            return None
-        resp.raise_for_status()
-        return resp.json()
+    try:
+        async with httpx.AsyncClient(timeout=3.0, follow_redirects=True) as client:
+            resp = await client.get(
+                f"{REST_URL}/{table}",
+                params=params or {},
+                headers=headers,
+            )
+            if resp.status_code == 406 and single:
+                return None
+            resp.raise_for_status()
+            return resp.json()
+    except Exception:
+        # Fallback to local SQLite DB when Supabase is unreachable
+        import sqlite3
+        db_path = "ecovision.db"
+        conn = sqlite3.connect(db_path)
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+        
+        query = f"SELECT * FROM {table}"
+        where_clauses = []
+        sql_params = []
+        
+        if params:
+            for key, val in params.items():
+                if key in ("select", "order", "limit"):
+                    continue
+                if isinstance(val, str) and val.startswith("eq."):
+                    where_clauses.append(f"{key} = ?")
+                    sql_params.append(val[3:])
+        
+        if where_clauses:
+            query += " WHERE " + " AND ".join(where_clauses)
+            
+        cur.execute(query, sql_params)
+        rows = [dict(r) for r in cur.fetchall()]
+        conn.close()
+        
+        if single:
+            return rows[0] if rows else None
+        return rows
 
 
 async def supabase_post(

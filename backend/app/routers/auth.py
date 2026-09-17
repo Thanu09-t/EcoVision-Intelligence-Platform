@@ -5,8 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
 from app.config import settings
-from app.models.user import UserRole
-from app.schemas import UserRegister, UserLogin, TokenResponse, UserOut
+from app.schemas import UserRole, UserRegister, UserLogin, TokenResponse, UserOut
 from app.supabase_client import supabase_get, supabase_post, supabase_patch
 
 import bcrypt

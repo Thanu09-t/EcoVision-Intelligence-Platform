@@ -1,6 +1,10 @@
 "use client";
 import Link from "next/link";
 
+const CITIZEN_URL = "/citizen";
+const MUNICIPAL_URL = "/dashboard";
+const API_URL = (process.env.VITE_API_URL || process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
+
 export default function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -38,7 +42,7 @@ export default function Footer() {
               <li><a href="#features" className="hover:text-white transition-colors">YOLOv11 Detection</a></li>
               <li><a href="#map" className="hover:text-white transition-colors">PostGIS Heatmap</a></li>
               <li><a href="#workflow" className="hover:text-white transition-colors">SLA Workflow</a></li>
-              <li><a href="http://localhost:3002/routes" className="hover:text-white transition-colors">OR-Tools Dispatch</a></li>
+              <li><a href={`${MUNICIPAL_URL}/routes`} className="hover:text-white transition-colors">OR-Tools Dispatch</a></li>
             </ul>
           </div>
 
@@ -46,10 +50,10 @@ export default function Footer() {
           <div className="space-y-3">
             <h4 className="text-xs font-bold font-heading text-white uppercase tracking-wider">Portals & API</h4>
             <ul className="space-y-2 text-caption">
-              <li><a href="http://localhost:3001" className="hover:text-white transition-colors">Citizen Upload Portal</a></li>
-              <li><a href="http://localhost:3002" className="hover:text-white transition-colors">Municipal Officer Command</a></li>
-              <li><a href="http://localhost:8000/docs" className="hover:text-white transition-colors">FastAPI Interactive Docs</a></li>
-              <li><a href="http://localhost:8000/health" className="hover:text-white transition-colors">API Healthcheck Status</a></li>
+              <li><a href={CITIZEN_URL} className="hover:text-white transition-colors">Citizen Upload Portal</a></li>
+              <li><a href={MUNICIPAL_URL} className="hover:text-white transition-colors">Municipal Officer Command</a></li>
+              <li><a href={`${API_URL}/docs`} className="hover:text-white transition-colors">FastAPI Interactive Docs</a></li>
+              <li><a href={API_URL ? `${API_URL}/health` : "/api/health"} className="hover:text-white transition-colors">API Healthcheck Status</a></li>
             </ul>
           </div>
         </div>
@@ -60,7 +64,7 @@ export default function Footer() {
             © 2026 EcoVision AI Infrastructure. Built for municipal operations.
           </div>
           <div className="flex items-center gap-6">
-            <a href="http://localhost:8000/docs" className="hover:text-white transition-colors">API Endpoint Docs</a>
+            <a href={`${API_URL}/docs`} className="hover:text-white transition-colors">API Endpoint Docs</a>
             <button
               onClick={scrollToTop}
               className="flex items-center gap-1.5 text-[#5CE0A5] hover:text-white transition-colors font-semibold"

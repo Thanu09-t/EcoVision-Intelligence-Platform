@@ -1,0 +1,20 @@
+{
+  "name": "ecovision-ai",
+  "version": "1.0.0",
+  "description": "Intelligent Garbage Pollution Mapping & Municipal Waste Management Platform",
+  "private": true,
+  "scripts": {
+    "dev": "python run.py",
+    "start": "python run.py",
+    "server": "node server.js"
+  },
+  "keywords": [
+    "waste-management",
+    "garbage-detection",
+    "smart-city",
+    "fastapi",
+    "nextjs"
+  ],
+  "author": "EcoVision AI Team",
+  "license": "MIT"
+}

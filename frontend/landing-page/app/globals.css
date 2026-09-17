@@ -187,3 +187,73 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 ::-webkit-scrollbar-thumb { background: #10251F; border-radius: 3px; }
 
 .leaflet-container { background: #081B16 !important; }
+
+/* ── Consolidated Neomorphic & Utility Styles ── */
+.glass, .glass-panel, .neu-card, .kpi-card {
+  background: #10251F;
+  border-radius: 20px;
+  box-shadow: 8px 8px 20px #030a08, -8px -8px 20px #1c3c33;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+.kpi-card:hover {
+  box-shadow: 12px 12px 28px #020705, -12px -12px 28px #20463b, 0 0 15px rgba(92, 224, 165, 0.12);
+  transform: translateY(-2px);
+}
+
+.neu-inset {
+  background: #0a1814;
+  box-shadow: inset 4px 4px 10px #030a08, inset -4px -4px 10px #17362d;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.btn-primary {
+  background: linear-gradient(145deg, #e5b85b, #c2953a);
+  color: #081B16;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 6px 6px 14px #030a08, -6px -6px 14px #1c3c33;
+}
+.btn-primary:hover {
+  background: linear-gradient(145deg, #f0c366, #d6a84a);
+  box-shadow: 8px 8px 18px #020705, -8px -8px 18px #20463b;
+}
+
+.btn-secondary {
+  background: #10251F;
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(92, 224, 165, 0.2);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 6px 6px 14px #030a08, -6px -6px 14px #1c3c33;
+}
+.btn-secondary:hover {
+  box-shadow: inset 4px 4px 9px #030a08, inset -4px -4px 9px #17362d;
+  color: #5CE0A5;
+}
+
+.pulse-emerald {
+  display: inline-block;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #5CE0A5;
+  box-shadow: 0 0 0 0 rgba(92, 224, 165, 0.6);
+  animation: pulse-ring 2s ease-out infinite;
+}
+
