@@ -12,11 +12,11 @@ if ROOT_DIR not in sys.path:
 _load_error = None
 try:
     from app.main import app
-except Exception as e:
+except BaseException as e:
     _load_error = traceback.format_exc()
     app = FastAPI(title="EcoVision AI Diagnostic Fallback")
 
-    @app.get("/{full_path:path}")
+    @app.api_route("/{full_path:path}", methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "PATCH"])
     async def fallback_route(full_path: str = ""):
         return JSONResponse(
             status_code=500,
@@ -29,3 +29,5 @@ except Exception as e:
                 "sys_path": sys.path,
             },
         )
+
+__all__ = ["app"]
