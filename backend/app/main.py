@@ -1,8 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 import os
+import traceback
 
 from app.config import settings
 from app.routers import auth, reports, map, analytics, routing, ai_reports, notifications, vehicles
@@ -10,14 +12,13 @@ from app.routers import auth, reports, map, analytics, routing, ai_reports, noti
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Startup and shutdown events."""
+    """Safe lifespan that never crashes in serverless environments."""
     try:
-        os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
-    except OSError:
+        if settings.UPLOAD_DIR:
+            os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+    except Exception:
         pass
-    print(f"[OK] EcoVision AI backend started | AI Mode: {settings.AI_MODE} | DB: Supabase ({settings.SUPABASE_URL})")
     yield
-    print("[--] EcoVision AI backend shutting down")
 
 
 app = FastAPI(
@@ -37,21 +38,42 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    """Catch-all to return JSON diagnostic error instead of plain 500."""
+    return JSONResponse(
+        status_code=500,
+        content={
+            "status": "error",
+            "message": "Internal Server Error",
+            "detail": str(exc),
+            "traceback": traceback.format_exc(),
+        },
+    )
+
+
+# Safe CORS configuration
+cors_origins = settings.CORS_ORIGINS
+allow_creds = True
+if cors_origins == ["*"] or cors_origins == "*" or (isinstance(cors_origins, list) and "*" in cors_origins):
+    cors_origins = ["*"]
+    allow_creds = False
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
-    allow_credentials=True,
+    allow_origins=cors_origins if isinstance(cors_origins, list) else ["*"],
+    allow_credentials=allow_creds,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Static files (uploaded images)
+# Static files (uploaded images) - safe mount
 try:
-    if os.path.exists(settings.UPLOAD_DIR):
+    if settings.UPLOAD_DIR and os.path.exists(settings.UPLOAD_DIR):
         app.mount("/uploads", StaticFiles(directory=settings.UPLOAD_DIR), name="uploads")
 except Exception as e:
-    print(f"[WARNING] Could not mount static uploads directory: {e}")
+    pass
 
 # Routers
 app.include_router(auth.router)
@@ -65,6 +87,9 @@ app.include_router(vehicles.router)
 
 
 @app.get("/", tags=["Health"])
+@app.get("/api", include_in_schema=False)
+@app.get("/api/index", include_in_schema=False)
+@app.get("/api/index.py", include_in_schema=False)
 async def root():
     return {
         "name": "EcoVision AI API",
@@ -77,6 +102,7 @@ async def root():
 
 
 @app.get("/health", tags=["Health"])
+@app.get("/api/health", tags=["Health"])
 async def health():
     return {"status": "healthy", "ai_mode": settings.AI_MODE, "database": "supabase"}
 
