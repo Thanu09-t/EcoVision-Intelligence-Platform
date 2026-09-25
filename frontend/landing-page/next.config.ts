@@ -2,12 +2,22 @@ import type { NextConfig } from "next";
 
 const PRODUCTION_BACKEND_URL = "https://ecovision-intelligence-platform-backend.onrender.com";
 
+const getBackendUrl = () => {
+  const envUrl =
+    process.env.BACKEND_INTERNAL_URL ||
+    process.env.NEXT_PUBLIC_API_URL ||
+    process.env.VITE_API_URL;
+  if (!envUrl || envUrl.includes("localhost:8000") || envUrl.includes("127.0.0.1:8000")) {
+    return PRODUCTION_BACKEND_URL;
+  }
+  return envUrl.replace(/\/$/, "");
+};
+
+const backendUrl = getBackendUrl();
+
 const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
   },
   images: {
     remotePatterns: [
@@ -16,25 +26,12 @@ const nextConfig: NextConfig = {
     ],
   },
   env: {
-    VITE_API_URL:
-      process.env.VITE_API_URL ||
-      process.env.NEXT_PUBLIC_API_URL ||
-      PRODUCTION_BACKEND_URL,
-    NEXT_PUBLIC_API_URL:
-      process.env.NEXT_PUBLIC_API_URL ||
-      process.env.VITE_API_URL ||
-      PRODUCTION_BACKEND_URL,
+    VITE_API_URL: backendUrl,
+    NEXT_PUBLIC_API_URL: backendUrl,
     NEXT_PUBLIC_CITIZEN_URL: process.env.NEXT_PUBLIC_CITIZEN_URL || "/citizen",
     NEXT_PUBLIC_MUNICIPAL_URL: process.env.NEXT_PUBLIC_MUNICIPAL_URL || "/dashboard",
   },
   async rewrites() {
-    const backendUrl = (
-      process.env.BACKEND_INTERNAL_URL ||
-      process.env.VITE_API_URL ||
-      process.env.NEXT_PUBLIC_API_URL ||
-      PRODUCTION_BACKEND_URL
-    ).replace(/\/$/, "");
-
     return [
       {
         source: "/api/health",

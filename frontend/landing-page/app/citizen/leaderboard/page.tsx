@@ -1,8 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-
-const API_BASE = (process.env.VITE_API_URL || process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
+import { API_BASE } from "@/lib/api-config";
 
 function getCookie(name: string): string | null {
   if (typeof document === "undefined") return null;

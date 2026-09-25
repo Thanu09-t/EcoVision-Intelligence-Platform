@@ -1,9 +1,10 @@
 "use client";
 import Link from "next/link";
+import { API_BASE } from "@/lib/api-config";
 
 const CITIZEN_URL = "/citizen";
 const MUNICIPAL_URL = "/dashboard";
-const API_URL = (process.env.VITE_API_URL || process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
+const API_URL = API_BASE;
 
 export default function Footer() {
   const scrollToTop = () => {

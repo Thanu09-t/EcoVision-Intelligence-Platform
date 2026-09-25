@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import FloatingParticles from "@/components/FloatingParticles";
 import TiltCard from "@/components/TiltCard";
 import MagneticButton from "@/components/MagneticButton";
-
-const API_BASE = (process.env.VITE_API_URL || process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
+import { API_BASE } from "@/lib/api-config";
 
 const DEFAULT_MY_REPORTS = [
   { id: 1048, address: "Koramangala 4th Block, 80ft Road", ward: "Ward 151 (Koramangala)", description: "Commercial plastic waste pile near public park gate.", status: "cleaning_started", severity: "critical", score: 96, created_at: "2026-07-31" },

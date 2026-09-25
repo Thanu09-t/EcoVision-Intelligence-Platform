@@ -4,8 +4,7 @@ import Sidebar from "@/components/Sidebar";
 import FloatingParticles from "@/components/FloatingParticles";
 import TiltCard from "@/components/TiltCard";
 import MagneticButton from "@/components/MagneticButton";
-
-const API_BASE = (process.env.VITE_API_URL || process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
+import { API_BASE } from "@/lib/api-config";
 
 const REPORT_TYPES = [
   { id: "daily", label: "Daily Report", icon: "📅", desc: "Today's pollution overview" },

@@ -4,8 +4,7 @@ import Sidebar from "@/components/Sidebar";
 import FloatingParticles from "@/components/FloatingParticles";
 import TiltCard from "@/components/TiltCard";
 import MagneticButton from "@/components/MagneticButton";
-
-const API_BASE = (process.env.VITE_API_URL || process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
+import { API_BASE } from "@/lib/api-config";
 
 const DEFAULT_MOCK_REPORTS = [
   { id: 101, ward: "Ward 151 (Koramangala)", address: "Koramangala 4th Block, 80ft Road", description: "Large commercial plastic heap dumped near park gate.", status: "assigned", created_at: new Date().toISOString(), prediction: { severity: "critical", pollution_score: 96.8, primary_waste_type: "plastic", garbage_area_m2: 28.4, is_illegal: true } },

@@ -4,8 +4,7 @@ import Sidebar from "@/components/Sidebar";
 import FloatingParticles from "@/components/FloatingParticles";
 import TiltCard from "@/components/TiltCard";
 import MagneticButton from "@/components/MagneticButton";
-
-const API_BASE = (process.env.VITE_API_URL || process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
+import { API_BASE } from "@/lib/api-config";
 
 const SEVERITY_COLOR: Record<string, string> = {
   critical: "#ef4444", high: "#f97316", medium: "#f59e0b", low: "#84cc16", very_low: "#22c55e",

@@ -19,7 +19,7 @@ const STATUS_CONFIG: Record<string, { label: string; color: string; icon: string
   rejected: { label: "Rejected", color: "text-red-400 bg-red-400/10 border-red-500/20", icon: "❌" },
 };
 
-const API_BASE = (process.env.VITE_API_URL || process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
+import { API_BASE } from "@/lib/api-config";
 
 interface ReportDetailPageProps {
   params: Promise<{ id: string }>;

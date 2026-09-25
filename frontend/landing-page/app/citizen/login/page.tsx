@@ -5,13 +5,13 @@ import FloatingParticles from "@/components/FloatingParticles";
 import TiltCard from "@/components/TiltCard";
 import MagneticButton from "@/components/MagneticButton";
 
+import { API_BASE } from "@/lib/api-config";
+
 const DEMO_CREDENTIALS = [
   { label: "Citizen", email: "citizen@demo.com", password: "demo1234", role: "citizen" },
   { label: "Municipal Officer", email: "officer@demo.com", password: "demo1234", role: "municipal" },
   { label: "System Admin", email: "admin@ecovision.ai", password: "admin1234", role: "admin" },
 ];
-
-const API_BASE = (process.env.VITE_API_URL || process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -31,13 +31,25 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const response = await fetch(`${API_BASE}/api/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      let response: Response;
+      try {
+        response = await fetch(`${API_BASE}/api/auth/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        });
+      } catch (directErr) {
+        // Fallback to relative rewrite proxy
+        response = await fetch(`/api/auth/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        });
+      }
 
       const data = await response.json();
 

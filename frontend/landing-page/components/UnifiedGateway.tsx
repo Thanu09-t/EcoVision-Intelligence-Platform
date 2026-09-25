@@ -2,9 +2,11 @@
 import TiltCard from "@/components/TiltCard";
 import MagneticButton from "@/components/MagneticButton";
 
+import { API_BASE } from "@/lib/api-config";
+
 const CITIZEN_URL = "/citizen";
 const MUNICIPAL_URL = "/dashboard";
-const API_URL = (process.env.VITE_API_URL || process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
+const API_URL = API_BASE;
 
 const MASTER_LINKS = [
   {
