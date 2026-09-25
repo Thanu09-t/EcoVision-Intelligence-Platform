@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+const PRODUCTION_BACKEND_URL = "https://ecovision-intelligence-platform-backend.onrender.com";
+
 const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
@@ -14,8 +16,14 @@ const nextConfig: NextConfig = {
     ],
   },
   env: {
-    VITE_API_URL: process.env.VITE_API_URL || process.env.NEXT_PUBLIC_API_URL || "",
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || process.env.VITE_API_URL || "",
+    VITE_API_URL:
+      process.env.VITE_API_URL ||
+      process.env.NEXT_PUBLIC_API_URL ||
+      PRODUCTION_BACKEND_URL,
+    NEXT_PUBLIC_API_URL:
+      process.env.NEXT_PUBLIC_API_URL ||
+      process.env.VITE_API_URL ||
+      PRODUCTION_BACKEND_URL,
     NEXT_PUBLIC_CITIZEN_URL: process.env.NEXT_PUBLIC_CITIZEN_URL || "/citizen",
     NEXT_PUBLIC_MUNICIPAL_URL: process.env.NEXT_PUBLIC_MUNICIPAL_URL || "/dashboard",
   },
@@ -24,8 +32,9 @@ const nextConfig: NextConfig = {
       process.env.BACKEND_INTERNAL_URL ||
       process.env.VITE_API_URL ||
       process.env.NEXT_PUBLIC_API_URL ||
-      "http://127.0.0.1:8000"
+      PRODUCTION_BACKEND_URL
     ).replace(/\/$/, "");
+
     return [
       {
         source: "/api/health",
