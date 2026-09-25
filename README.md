@@ -60,12 +60,6 @@ cp .env.example .env
 docker-compose up --build
 ```
 
-**Access:**
-- Landing Page: http://localhost:3000
-- Citizen Portal: http://localhost:3001
-- Municipal Dashboard: http://localhost:3002
-- API Docs: http://localhost:8000/docs
-
 ### Local Development
 
 **Backend:**
