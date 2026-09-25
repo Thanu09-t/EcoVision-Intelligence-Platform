@@ -48,6 +48,8 @@ services:
       SECRET_KEY: ${SECRET_KEY:-ecovision-dev-secret-key}
       AI_MODE: ${AI_MODE:-mock}
       CORS_ORIGINS: '["http://localhost:3000","http://localhost:3001","http://localhost:3002","http://localhost:80"]'
+      SUPABASE_URL: ${SUPABASE_URL:-}
+      SUPABASE_KEY: ${SUPABASE_KEY:-}
     volumes:
       - ./backend/uploads:/app/uploads
     ports:
@@ -68,7 +70,8 @@ services:
       dockerfile: Dockerfile
     container_name: ecovision_frontend
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8000
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+      BACKEND_INTERNAL_URL: http://backend:8000
       NEXT_PUBLIC_CITIZEN_URL: /citizen
       NEXT_PUBLIC_MUNICIPAL_URL: /dashboard
     ports:
