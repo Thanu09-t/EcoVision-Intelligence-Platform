@@ -1,11 +1,14 @@
 """
-EcoVision AI – Supabase REST Client
+EcoVision AI – Supabase REST Client with Resilient SQLite Fallback
 
 Async HTTP wrapper around the Supabase PostgREST API.
-All data operations go through this module.
+When Supabase is unreachable (or offline), transparently falls back to
+the local SQLite database (ecovision.db).
 """
 
 import httpx
+import os
+import sqlite3
 from typing import Optional, Any
 from app.config import settings
 
@@ -28,22 +31,29 @@ def _build_headers(extra: Optional[dict] = None) -> dict:
     return h
 
 
+def _get_db_path() -> str:
+    """Locate the ecovision.db file regardless of current working directory."""
+    backend_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    target = os.path.join(backend_dir, "ecovision.db")
+    if os.path.exists(target):
+        return target
+    # Fallback checks
+    if os.path.exists("ecovision.db"):
+        return "ecovision.db"
+    return target
+
+
+def _get_sqlite_conn():
+    conn = sqlite3.connect(_get_db_path())
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
 async def supabase_get(
     table: str,
     params: Optional[dict] = None,
     single: bool = False,
 ) -> Any:
-    """
-    SELECT from a Supabase table.
-
-    Args:
-        table: Table name (e.g. "users", "garbage_reports")
-        params: PostgREST query params (e.g. {"email": "eq.test@demo.com", "select": "*"})
-        single: If True, expects exactly one row (adds Accept: singular header)
-
-    Returns:
-        List of dicts, or a single dict if single=True.
-    """
     headers = _build_headers()
     if single:
         headers["Accept"] = "application/vnd.pgrst.object+json"
@@ -60,11 +70,8 @@ async def supabase_get(
             resp.raise_for_status()
             return resp.json()
     except Exception:
-        # Fallback to local SQLite DB when Supabase is unreachable
-        import sqlite3
-        db_path = "ecovision.db"
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row
+        # Fallback to local SQLite DB
+        conn = _get_sqlite_conn()
         cur = conn.cursor()
         
         query = f"SELECT * FROM {table}"
@@ -73,7 +80,7 @@ async def supabase_get(
         
         if params:
             for key, val in params.items():
-                if key in ("select", "order", "limit"):
+                if key in ("select", "order", "limit", "offset"):
                     continue
                 if isinstance(val, str) and val.startswith("eq."):
                     where_clauses.append(f"{key} = ?")
@@ -96,35 +103,44 @@ async def supabase_post(
     data: Any,
     return_data: bool = True,
 ) -> Any:
-    """
-    INSERT into a Supabase table.
-
-    Args:
-        table: Table name
-        data: Dict or list of dicts to insert
-        return_data: If True, returns the inserted row(s)
-
-    Returns:
-        Inserted row(s) as list of dicts, or single dict.
-    """
     headers = _build_headers()
     if return_data:
         headers["Prefer"] = "return=representation"
 
-    async with httpx.AsyncClient(timeout=15.0) as client:
-        resp = await client.post(
-            f"{REST_URL}/{table}",
-            json=data,
-            headers=headers,
-        )
-        resp.raise_for_status()
-        if return_data:
-            result = resp.json()
-            # If single dict was posted, return single dict
-            if isinstance(data, dict) and isinstance(result, list) and len(result) == 1:
-                return result[0]
-            return result
-        return None
+    try:
+        async with httpx.AsyncClient(timeout=4.0) as client:
+            resp = await client.post(
+                f"{REST_URL}/{table}",
+                json=data,
+                headers=headers,
+            )
+            resp.raise_for_status()
+            if return_data:
+                result = resp.json()
+                if isinstance(data, dict) and isinstance(result, list) and len(result) == 1:
+                    return result[0]
+                return result
+            return None
+    except Exception:
+        # Fallback to local SQLite
+        conn = _get_sqlite_conn()
+        cur = conn.cursor()
+        rows_to_insert = [data] if isinstance(data, dict) else data
+        inserted = []
+        for item in rows_to_insert:
+            columns = list(item.keys())
+            placeholders = ["?"] * len(columns)
+            sql = f"INSERT INTO {table} ({', '.join(columns)}) VALUES ({', '.join(placeholders)})"
+            cur.execute(sql, list(item.values()))
+            item_copy = dict(item)
+            if "id" not in item_copy or not item_copy["id"]:
+                item_copy["id"] = cur.lastrowid
+            inserted.append(item_copy)
+        conn.commit()
+        conn.close()
+        if isinstance(data, dict):
+            return inserted[0] if inserted else data
+        return inserted
 
 
 async def supabase_patch(
@@ -133,106 +149,97 @@ async def supabase_patch(
     data: dict,
     return_data: bool = True,
 ) -> Any:
-    """
-    UPDATE rows in a Supabase table.
-
-    Args:
-        table: Table name
-        params: PostgREST filter params (e.g. {"id": "eq.5"})
-        data: Fields to update
-        return_data: If True, returns the updated row(s)
-
-    Returns:
-        Updated row(s).
-    """
     headers = _build_headers()
     if return_data:
         headers["Prefer"] = "return=representation"
 
-    async with httpx.AsyncClient(timeout=15.0) as client:
-        resp = await client.patch(
-            f"{REST_URL}/{table}",
-            params=params,
-            json=data,
-            headers=headers,
-        )
-        resp.raise_for_status()
-        if return_data:
-            result = resp.json()
-            if isinstance(result, list) and len(result) == 1:
-                return result[0]
-            return result
-        return None
+    try:
+        async with httpx.AsyncClient(timeout=4.0) as client:
+            resp = await client.patch(
+                f"{REST_URL}/{table}",
+                params=params,
+                json=data,
+                headers=headers,
+            )
+            resp.raise_for_status()
+            if return_data:
+                result = resp.json()
+                if isinstance(result, list) and len(result) == 1:
+                    return result[0]
+                return result
+            return None
+    except Exception:
+        # Fallback to local SQLite
+        conn = _get_sqlite_conn()
+        cur = conn.cursor()
+        set_clauses = [f"{k} = ?" for k in data.keys()]
+        where_clauses = []
+        sql_params = list(data.values())
+        for key, val in params.items():
+            if isinstance(val, str) and val.startswith("eq."):
+                where_clauses.append(f"{key} = ?")
+                sql_params.append(val[3:])
+            else:
+                where_clauses.append(f"{key} = ?")
+                sql_params.append(val)
+        sql = f"UPDATE {table} SET {', '.join(set_clauses)} WHERE {' AND '.join(where_clauses)}"
+        cur.execute(sql, sql_params)
+        conn.commit()
+        conn.close()
+        return data
 
 
 async def supabase_delete(
     table: str,
     params: dict,
 ) -> None:
-    """DELETE rows from a Supabase table."""
     headers = _build_headers()
-    async with httpx.AsyncClient(timeout=15.0) as client:
-        resp = await client.delete(
-            f"{REST_URL}/{table}",
-            params=params,
-            headers=headers,
-        )
-        resp.raise_for_status()
-
-
-async def supabase_rpc(
-    fn_name: str,
-    params: Optional[dict] = None,
-) -> Any:
-    """Call a Postgres function via PostgREST RPC."""
-    headers = _build_headers()
-    async with httpx.AsyncClient(timeout=30.0) as client:
-        resp = await client.post(
-            f"{REST_URL}/rpc/{fn_name}",
-            json=params or {},
-            headers=headers,
-        )
-        resp.raise_for_status()
-        return resp.json()
-
-
-async def supabase_head(
-    table: str,
-    params: Optional[dict] = None,
-) -> int:
-    """
-    Get the count of rows matching a filter.
-    Uses the Prefer: count=exact header with HEAD request.
-    """
-    headers = _build_headers({"Prefer": "count=exact"})
-    async with httpx.AsyncClient(timeout=15.0) as client:
-        resp = await client.head(
-            f"{REST_URL}/{table}",
-            params=params or {},
-            headers=headers,
-        )
-        resp.raise_for_status()
-        # Count is in the Content-Range header: "0-N/total" or "*/total"
-        content_range = resp.headers.get("Content-Range", "*/0")
-        total = content_range.split("/")[-1]
-        return int(total) if total != "*" else 0
+    try:
+        async with httpx.AsyncClient(timeout=4.0) as client:
+            resp = await client.delete(
+                f"{REST_URL}/{table}",
+                params=params,
+                headers=headers,
+            )
+            resp.raise_for_status()
+    except Exception:
+        conn = _get_sqlite_conn()
+        cur = conn.cursor()
+        where_clauses = []
+        sql_params = []
+        for key, val in params.items():
+            if isinstance(val, str) and val.startswith("eq."):
+                where_clauses.append(f"{key} = ?")
+                sql_params.append(val[3:])
+            else:
+                where_clauses.append(f"{key} = ?")
+                sql_params.append(val)
+        sql = f"DELETE FROM {table} WHERE {' AND '.join(where_clauses)}"
+        cur.execute(sql, sql_params)
+        conn.commit()
+        conn.close()
 
 
 async def supabase_count(
     table: str,
     params: Optional[dict] = None,
 ) -> int:
-    """
-    Count rows matching a filter using GET with count header.
-    """
-    headers = _build_headers({"Prefer": "count=exact", "Range": "0-0"})
-    async with httpx.AsyncClient(timeout=15.0) as client:
-        resp = await client.get(
-            f"{REST_URL}/{table}",
-            params={**(params or {}), "select": "id"},
-            headers=headers,
-        )
-        resp.raise_for_status()
-        content_range = resp.headers.get("Content-Range", "*/0")
-        total = content_range.split("/")[-1]
-        return int(total) if total != "*" else 0
+    try:
+        headers = _build_headers({"Prefer": "count=exact", "Range": "0-0"})
+        async with httpx.AsyncClient(timeout=3.0) as client:
+            resp = await client.get(
+                f"{REST_URL}/{table}",
+                params={**(params or {}), "select": "id"},
+                headers=headers,
+            )
+            resp.raise_for_status()
+            content_range = resp.headers.get("Content-Range", "*/0")
+            total = content_range.split("/")[-1]
+            return int(total) if total != "*" else 0
+    except Exception:
+        conn = _get_sqlite_conn()
+        cur = conn.cursor()
+        cur.execute(f"SELECT COUNT(*) FROM {table}")
+        cnt = cur.fetchone()[0]
+        conn.close()
+        return cnt
