@@ -1,4 +1,4 @@
-# 🌍 EcoVision AI
+-# 🌍 EcoVision AI
 
 **Intelligent Garbage Pollution Mapping & Municipal Waste Management Platform**
 
