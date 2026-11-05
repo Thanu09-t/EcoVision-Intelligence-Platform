@@ -47,7 +47,7 @@ Satellite / Drone / Citizen Images
 
 ## 🚀 Quick Start
 
-### Prerequisites
+### Prerequisites.
 - Docker & Docker Compose
 - Node.js 18+
 - Python 3.11+
