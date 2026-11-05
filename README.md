@@ -50,7 +50,7 @@ Satellite / Drone / Citizen Images
 ### Prerequisites.
 - Docker & Docker Compose.
 - Node.js 18+.
-- Python 3.11+
+- Python 3.11+.
 
 ### Run with Docker
 ```bash
